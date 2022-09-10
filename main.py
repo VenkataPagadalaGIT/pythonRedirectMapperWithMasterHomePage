@@ -2,7 +2,7 @@ import streamlit as st
 from polyfuzz import PolyFuzz
 import pandas as pd
 
-st.title('Python URL / Redirect Mapping Tool')
+st.title('Python URL / Redirect Mapping Tool With Home Page as Master Redirect')
 st.subheader('Directions:')
 st.write('- Upload complete crawl \n - Upload a list of 404s in.CSV format (URL column named URL) \n - Would not '
          'recommend with over 10k URLs (very slow) ')
