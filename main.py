@@ -38,11 +38,13 @@ if file1 is not None and file2 is not None:
     df['Meta Description'] = current['Meta Description 1']
     df['H1'] = current['H1-1']
     val = df[df['To'].str.contains(ROOTDOMAIN)]
+    mainTitle = val['Title'][0]
     mainMeta = val['Meta Description'][0]
     mainH1 = val['H1'][0]
     df3 = pd.merge(df, df1, on='To')
     df3 = df3[['Similarity', 'From', 'To', 'Title', 'Meta Description', 'H1']]
     df3.loc[df3["Similarity"] < .86, "To"] = ROOTDOMAIN
+    df3.loc[df3["Similarity"] < .86, "Title"] = mainTitle
     df3.loc[df3["Similarity"] < .86, "Meta Description"] = mainMeta
     df3.loc[df3["Similarity"] < .86, "H1"] = mainH1
     # df3.loc[df3["To"] == ROOTDOMAIN, "Meta Description"] = mainMeta
