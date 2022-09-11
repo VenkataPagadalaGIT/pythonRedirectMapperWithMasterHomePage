@@ -2,11 +2,11 @@ import streamlit as st
 from polyfuzz import PolyFuzz
 import pandas as pd
 
-st.title('Python URL / Redirect Mapping Tool With Home Page as Master Redirect')
+st.title('Python URL / Redirect Mapping Tool')
 st.subheader('Directions:')
 st.write('- Upload complete crawl \n - Upload a list of 404s in.CSV format (URL column named URL) \n - Would not '
          'recommend with over 10k URLs (very slow) ')
-st.write(' Note 1: If similarity is less than 0.8, then this program by default recommended to redirect to homepage')
+st.write(' Note: If similarity is less than 0.8, It required human validation')
 st.write("Author - [Venkata Pagadala](https://www.linkedin.com/in/venkata-pagadala/)")
 # Importing the URL CSV files
 url = st.text_input('The URL to Match', placeholder='Enter domain (www.google.com)')
@@ -37,9 +37,16 @@ if file1 is not None and file2 is not None:
     df['Title'] = current['Title 1']
     df['Meta Description'] = current['Meta Description 1']
     df['H1'] = current['H1-1']
+    val = df[df['To'].str.contains(ROOTDOMAIN)]
+    mainMeta = val['Meta Description'][0]
+    mainH1 = val['H1'][0]
     df3 = pd.merge(df, df1, on='To')
     df3 = df3[['Similarity', 'From', 'To', 'Title', 'Meta Description', 'H1']]
-    df3.loc[df3["Similarity"] < .80, "To"] = ROOTDOMAIN
+    df3.loc[df3["Similarity"] < .86, "To"] = ROOTDOMAIN
+    df3.loc[df3["Similarity"] < .86, "Meta Description"] = mainMeta
+    df3.loc[df3["Similarity"] < .86, "H1"] = mainH1
+    # df3.loc[df3["To"] == ROOTDOMAIN, "Meta Description"] = mainMeta
+    # df3.loc[df3["To"] == ROOTDOMAIN, "H1"] = mainH1
     df3
     # Downloading of File
     @st.cache
