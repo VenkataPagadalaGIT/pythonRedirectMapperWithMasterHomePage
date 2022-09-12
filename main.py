@@ -25,10 +25,9 @@ if file1 is not None and file2 is not None:
     model = PolyFuzz("EditDistance")
     model.match(broken_list, current_list)
     df1 = model.get_matches()
-    df1 = df1.sort_values(by='Similarity', ascending=False)
     # Polishing and Pruning
     df1["Similarity"] = df1["Similarity"].round(3)
-    index_names = df1.loc[df1['Similarity'] < .80].index
+    index_names = df1.loc[df1['Similarity'] < .50].index
     amt_dropped = len(index_names)
     df1.drop(index_names, inplace=True)
     df1["To"] = ROOTDOMAIN + df1["To"]
@@ -44,12 +43,11 @@ if file1 is not None and file2 is not None:
     mainH1 = val['H1'][0]
     df3 = pd.merge(df, df1, on='To')
     df3 = df3[['Similarity', 'From', 'To', 'Title', 'Meta Description', 'H1']]
-    df3.loc[df3["Similarity"] < .66, "To"] = ROOTDOMAIN
-    df3.loc[df3["Similarity"] < .66, "Title"] = mainTitle
-    df3.loc[df3["Similarity"] < .66, "Meta Description"] = mainMeta
-    df3.loc[df3["Similarity"] < .66, "H1"] = mainH1
-    # df3.loc[df3["To"] == ROOTDOMAIN, "Meta Description"] = mainMeta
-    # df3.loc[df3["To"] == ROOTDOMAIN, "H1"] = mainH1
+    df3.loc[df3["Similarity"] < .69, "To"] = ROOTDOMAIN
+    df3.loc[df3["Similarity"] < .69, "Title"] = mainTitle
+    df3.loc[df3["Similarity"] < .69, "Meta Description"] = mainMeta
+    df3.loc[df3["Similarity"] < .69, "H1"] = mainH1
+    df3 = df3.sort_values(by='Similarity', ascending=False)
     df3
     # Downloading of File
     @st.cache
