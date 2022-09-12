@@ -1,6 +1,7 @@
 import streamlit as st
 from polyfuzz import PolyFuzz
 import pandas as pd
+from polyfuzz.models import TFIDF
 
 st.title('Python URL / Redirect Mapping Tool with Default Value')
 st.subheader('Directions:')
@@ -22,7 +23,11 @@ if file1 is not None and file2 is not None:
     broken_list = [sub.replace(ROOTDOMAIN, '') for sub in broken_list]
     current_list = current["Address"].tolist()
     current_list = [sub.replace(ROOTDOMAIN, '') for sub in current_list]
-    model = PolyFuzz("EditDistance")
+
+    tfidf = TFIDF(n_gram_range=(2, 2))
+    model = PolyFuzz(tfidf)
+
+    #model = PolyFuzz("EditDistance")
     model.match(broken_list,current_list)
     df1 = model.get_matches()
     # Polishing and Pruning
