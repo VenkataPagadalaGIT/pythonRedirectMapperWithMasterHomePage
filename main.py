@@ -23,7 +23,7 @@ if file1 is not None and file2 is not None:
     current_list = current["Address"].tolist()
     current_list = [sub.replace(ROOTDOMAIN, '') for sub in current_list]
     model = PolyFuzz("EditDistance")
-    model.match(current_list,broken_list)
+    model.match(broken_list,current_list)
     df1 = model.get_matches()
     # Polishing and Pruning
     df1["Similarity"] = df1["Similarity"].round(3)
