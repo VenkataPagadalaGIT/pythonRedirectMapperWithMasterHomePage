@@ -32,7 +32,7 @@ if file1 is not None and file2 is not None:
     df1 = model.get_matches()
     # Polishing and Pruning
     df1["Similarity"] = df1["Similarity"].round(3)
-    index_names = df1.loc[df1['Similarity'] < .10].index
+    index_names = df1.loc[df1['Similarity'] < .24].index
     amt_dropped = len(index_names)
     df1.drop(index_names, inplace=True)
     df1["To"] = ROOTDOMAIN + df1["To"]
@@ -48,10 +48,10 @@ if file1 is not None and file2 is not None:
     mainH1 = val['H1'][0]
     df3 = pd.merge(df, df1, on='To')
     df3 = df3[['Similarity', 'From', 'To', 'Title', 'Meta Description', 'H1']]
-    df3.loc[df3["Similarity"] < .10, "To"] = ROOTDOMAIN
-    df3.loc[df3["Similarity"] < .10, "Title"] = mainTitle
-    df3.loc[df3["Similarity"] < .10, "Meta Description"] = mainMeta
-    df3.loc[df3["Similarity"] < .10, "H1"] = mainH1
+    df3.loc[df3["Similarity"] < .24, "To"] = ROOTDOMAIN
+    df3.loc[df3["Similarity"] < .24, "Title"] = mainTitle
+    df3.loc[df3["Similarity"] < .24, "Meta Description"] = mainMeta
+    df3.loc[df3["Similarity"] < .24, "H1"] = mainH1
     df3 = df3.sort_values(by='Similarity', ascending=False)
     df3
     # Downloading of File
