@@ -32,7 +32,7 @@ if file1 is not None and file2 is not None:
     df1 = model.get_matches()
     # Polishing and Pruning
     df1["Similarity"] = df1["Similarity"].round(3)
-    index_names = df1.loc[df1['Similarity'] < .25].index
+    index_names = df1.loc[df1['Similarity'] < .16].index
     amt_dropped = len(index_names)
     df1.drop(index_names, inplace=True)
     df1["To"] = ROOTDOMAIN + df1["To"]
